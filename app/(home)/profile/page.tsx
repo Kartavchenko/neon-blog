@@ -1,18 +1,26 @@
 import { getSession } from "@auth0/nextjs-auth0";
-import Link from "next/dist/client/link";
+import Link from "next/link";
 import { FiSettings } from "react-icons/fi";
 import { redirect } from "next/navigation";
+import placeholder from "/images/portrait_placeholder_optimized.png";
+import Image from "next/image";
 
 export default async function ProfileServer() {
   const isLogin = await getSession();
 
   return isLogin ? (
     <div>
-      {/* <img src={user.picture} alt={user.name} /> */}
-      <h2>{isLogin.user.nickname}</h2>
+      <Image
+        priority={true}
+        src={isLogin.user.picture || placeholder}
+        alt={isLogin.user.name || isLogin.user.nickname}
+        width="150"
+        height="150"
+      />
+      <h2>{isLogin.user.name || isLogin.user.nickname}</h2>
       <p>{isLogin.user.email}</p>
       <Link href="/api/auth/logout">LOGOUT</Link>
-      <Link href="/settings">
+      <Link href="/profile/settings">
         <FiSettings />
       </Link>
     </div>
@@ -20,19 +28,3 @@ export default async function ProfileServer() {
     redirect("/api/auth/login")
   );
 }
-
-// import React from 'react';
-// import { InferGetServerSidePropsType } from 'next';
-// import { pageRouterAuth } from '../../lib/auth0';
-// import Layout from '@/components/layout';
-
-// export default function Profile({ user }: InferGetServerSidePropsType<typeof getServerSideProps>): React.ReactElement {
-//   return (
-//     <Layout>
-//       <h1>Profile (server rendered)</h1>
-//       <pre data-testid="profile">{JSON.stringify(user, null, 2)}</pre>
-//     </Layout>
-//   );
-// }
-
-// export const getServerSideProps = pageRouterAuth.withPageAuthRequired();

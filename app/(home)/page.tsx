@@ -1,4 +1,3 @@
-import NavBar from "./layout";
 
 export default function Home() {
   return (
