@@ -1,37 +1,41 @@
-"use client";
 
-import { useState } from "react";
+async function addPost(data: FormData) {
+  "use server"
+
+  const title = data.get("title")?.valueOf()
+  const hashtag = data.get("hashtag")?.valueOf()
+
+  if (typeof title !== "string" || title.length === 0) {
+    throw new Error("Invalid Title")
+  }
+
+  if (typeof hashtag !== "string" || hashtag.length === 0) {
+    throw new Error("Invalid hashtag")
+  }
+
+  // await prisma.post.create(data)
+  console.log(data)
+}
 
 export default function AddPost() {
-  const [titlePost, setTitlePost] = useState("");
-  const [descriptionText, setdescriptionText] = useState("");
-
-  const handleTitleText = (e: React.ChangeEvent<HTMLInputElement> ) => {
-    setTitlePost(e.target.value)
-  }
-
-  const handleDescriptionText = (e: React.ChangeEvent<HTMLTextAreaElement> ) => {
-    setdescriptionText(e.target.value)
-  }
 
   return (
-    <form action="">
+    <form className="flex flex-col gap-y-2" action={addPost}>
       <label htmlFor="title"></label>
       <input
+        className="input-xl input"
         id="title"
+        name="title"
         type="text"
-        value={titlePost}
-        onChange={handleTitleText}
       />
-      <label htmlFor="description"></label>
-      <textarea
-        name="description"
-        id="description"
-        value={descriptionText}
-        onChange={handleDescriptionText}
-      >
-      </textarea>
-      <button type="submit">Post</button>
+      <label htmlFor="hashtag"></label>
+      <input
+        className="input-xl input"
+        id="hashtag"
+        name="hashtag"
+        type="text"
+      />
+      <button className="btn btn-solid-secondary" type="submit">Post</button>
     </form>
   );
 }

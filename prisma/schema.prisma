@@ -1,14 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -17,25 +14,18 @@ model User {
   neonNickName String @unique
   email        String @unique
   usersPosts   Post[] @relation("UsersPosts")
-  savedPosts   Post[] @relation("UsersSavedPosts")
-  likedPosts   Post[] @relation("LikedUserPosts")
+
+  @@unique([neonNickName, email])
+  @@index([neonNickName])
 }
 
 model Post {
-  id        String    @id @default(uuid())
-  createdAt DateTime
-  updetedAt DateTime
-  popular   Float
-  author    User      @relation("UsersPosts", fields: [authorId], references: [id])
-  authorId  String
-  likedBy   User?     @relation("LikedUserPosts", fields: [likedById], references: [id])
-  likedById String?
-  savedBy   User?     @relation("UsersSavedPosts", fields: [savedById], references: [id])
-  savedById String
-  content   Content[]
-}
-
-model Content {
-  id    String @id @default(uuid())
-  posts Post[]
+  id             String   @id @default(uuid())
+  title          String
+  createdAt      DateTime @default(now())
+  updetedAt      DateTime @updatedAt
+  averagePopular Float
+  author         User     @relation("UsersPosts", fields: [authorId], references: [id])
+  authorId       String
+  hashtag        String
 }

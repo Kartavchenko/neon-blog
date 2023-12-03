@@ -1,3 +1,5 @@
-export default function Loading() {
-  return <h2>Loading...</h2>;
+import { HomePageSkeleton } from "@/app/ui/skeletons";
+
+export default function LoadingSettings() {
+  return <HomePageSkeleton />
 }
