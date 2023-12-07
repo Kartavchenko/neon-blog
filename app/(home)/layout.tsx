@@ -10,9 +10,11 @@ export default function HomeLayout({
   return (
     <div className="flex flex-col min-h-screen container mx-auto xs:px-3 md:px-4">
       <Suspense fallback={<Loading />}>
-        <div className="flex-grow">{children}</div>
+        <main className="flex-grow">{children}</main>
       </Suspense>
-      <NavBar />
+      <nav>
+        <NavBar />
+      </nav>
     </div>
   );
 }

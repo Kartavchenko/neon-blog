@@ -9,11 +9,12 @@ datasource db {
 }
 
 model User {
-  id           String @id @default(uuid())
-  name         String
-  neonNickName String @unique
-  email        String @unique
-  usersPosts   Post[] @relation("UsersPosts")
+  id           String  @id @default(uuid())
+  name         String?
+  neonNickName String? @unique
+  email        String  @unique
+  accessT      String?
+  usersPosts   Post[]  @relation("UsersPosts")
 
   @@unique([neonNickName, email])
   @@index([neonNickName])
@@ -24,8 +25,12 @@ model Post {
   title          String
   createdAt      DateTime @default(now())
   updetedAt      DateTime @updatedAt
-  averagePopular Float
+  published      Boolean  @default(true)
   author         User     @relation("UsersPosts", fields: [authorId], references: [id])
   authorId       String
+  comments       Json
+  averagePopular Float
+  views          Int      @default(0)
+  likes          Int      @default(0)
   hashtag        String
 }

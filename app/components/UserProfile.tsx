@@ -9,20 +9,6 @@ import Avatar from "./Avatar";
 export default function UserProfile() {
   const { user, error, isLoading } = useUser();
 
-  // const findRegisterUser = await prisma.user.findFirst({
-  //   where: { neonNickName: loggedUser.user.nickname },
-  // });
-
-  // if (!findRegisterUser) {
-  //   await prisma.user.create({
-  //     data: {
-  //       email: loggedUser.user.email,
-  //       name: loggedUser.user.name,
-  //       neonNickName: loggedUser.user.nickname,
-  //     },
-  //   });
-  // }
-
   if (isLoading) {
     return <UserProfilePageSkeleton />;
   }
@@ -33,8 +19,12 @@ export default function UserProfile() {
     return (
       <div className="pt-5">
         <div className="flex place-items-center place-content-between">
-          <h2>{user.name || user.nickname}</h2>
-          <Avatar avatarUrl={user.picture} nickName={user.nickname} />
+          <h2>{user.nickname || user.name}</h2>
+          <Avatar
+            avatarUrl={user.picture}
+            nickName={user.nickname}
+            size="avatar-xl"
+          />
         </div>
         <div className="divider"></div>
         <p>{user.email}</p>
@@ -48,16 +38,4 @@ export default function UserProfile() {
       </div>
     );
   }
-
-  return (
-    <div>
-      <h2>
-        To get access to the management functions in Neon Blog you must log in
-        or create an account
-      </h2>
-      <Link className="btn btn-lg" href="api/auth/login">
-        Log in
-      </Link>
-    </div>
-  );
 }

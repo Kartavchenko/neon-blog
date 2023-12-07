@@ -1,5 +1,5 @@
 import { HomePageSkeleton } from "@/app/ui/skeletons";
 
-export default function LoadingSettings() {
+export default function LoadingHome() {
   return <HomePageSkeleton />
 }
