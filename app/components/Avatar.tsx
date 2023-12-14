@@ -15,8 +15,8 @@ export default function Avatar({
   return (
     <Image
       className={`avatar ${size}`}
-      loading="lazy"
-      priority={false}
+      // loading="lazy"
+      priority={true}
       src={avatarUrl || placeholder}
       alt={`icon user ${nickName} in Neon Blog`}
       width="50"

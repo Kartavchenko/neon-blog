@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "../db";
+import { getSession } from "@auth0/nextjs-auth0";
 
 export async function addPost(data: FormData) {
     const title = data.get("title")?.valueOf();
@@ -18,12 +18,24 @@ export async function addPost(data: FormData) {
     console.log(data);
 }
 
-export async function updateUserNickname(data: FormData) {
+export async function updateUserNickname(
+    email: string | undefined,
+    data: FormData
+) {
     const nickname = data.get("nickname")?.valueOf();
 
     if (typeof nickname !== "string" || nickname.length === 0) {
-        throw new Error("Invalid nickname")
+        throw new Error("Invalid nickname");
     }
 
-    // await prisma.user.update({ where: {} })
+    // if (email) {
+    //     return await prisma.user.update({
+    //         where: {
+    //             email: email,
+    //         },
+    //         data: {
+    //             neonNickName: nickname,
+    //         },
+    //     });
+    // }
 }
