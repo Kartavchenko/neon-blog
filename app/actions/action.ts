@@ -1,7 +1,5 @@
 "use server";
 
-import { getSession } from "@auth0/nextjs-auth0";
-
 export async function addPost(data: FormData) {
     const title = data.get("title")?.valueOf();
     const hashtag = data.get("hashtag")?.valueOf();
@@ -14,7 +12,6 @@ export async function addPost(data: FormData) {
         throw new Error("Invalid hashtag");
     }
 
-    // await prisma.post.create(data)
     console.log(data);
 }
 

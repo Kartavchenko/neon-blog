@@ -11,8 +11,7 @@ async function db() {
         throw new Error("DATABASE_URL is not defined in environment variables");
     }
 
-    const sql = postgres(databaseURL, { ssl: "require" });
-    return sql;
+    return postgres(databaseURL, { ssl: "require" });
 }
 
 export async function insertUsers(data: UserData | null | undefined) {
@@ -20,11 +19,9 @@ export async function insertUsers(data: UserData | null | undefined) {
 
     if (!data) return;
 
-    const response = await sql`
-    INSERT INTO users (name, neon_nickname, email, access_token)
-    VALUES (${data.user.name}, ${data.user.nickname}, ${data.user.email}, ${data.accessToken})
-    ON CONFLICT (email) DO NOTHING   
-    `;
-
-    return response;
+    return await sql`
+        INSERT INTO users (name, neon_nickname, email, access_token)
+        VALUES (${data.user.name}, ${data.user.nickname}, ${data.user.email}, ${data.accessToken})
+        ON CONFLICT (email) DO NOTHING   
+        `;
 }
